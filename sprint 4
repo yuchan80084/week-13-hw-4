@@ -1,0 +1,53 @@
+#include <iostream>
+#include <vector>
+#include <ctime>
+#include <Windows.h>
+#include <fstream>
+using namespace std;
+class queue : public vector<int> {
+public:
+	queue() : Ni(10), No(20), NC(100) {
+		this->reserve(NC);
+		
+	};
+	queue(int ni, int no, int x) : Ni(ni), No(no), NC(x) {
+		this->reserve(NC);
+		
+	};
+	int Ni, No, NC;
+	int QF,Plr;
+	void in_out() {
+		ofstream xx("xxx.txt");
+		for (int i = 0; i < 60; i++) {
+			int ni = Ni, no = No, c = NC;
+			//enqueue
+			for (int i = 0; i < ni; i++) {
+				this->push_back(i);
+				if (this->size() + 1 > c) {
+					cout << "overflow!!!" << endl;
+					Plr += ni - i;
+					break;
+				}
+			}
+			// dequeue
+			for (int i = 0; i < no; i++) {
+				this->erase(this->begin());
+				if (this->size() == 0) break;
+			}		
+			cout << this->size() << endl;
+			QF = (this->size() / c) * 100;
+			cout << QF << "%" << endl;
+			cout << Plr << endl;
+			xx << i << " " << this->size() << " " << QF << "%" << " " << Plr << endl;
+			Sleep(50);
+		}
+		xx.close();
+	}
+	
+};
+
+int main() {
+	queue q(20,15,200);
+	q.in_out();
+	
+}
